@@ -60,6 +60,7 @@ my-app/
     polyfills.js
     webpack.config.dev.js
     webpack.config.prod.js
+    webpack.config.test.js
   public/
     index.html
     favicon.ico
@@ -67,6 +68,7 @@ my-app/
     build.js
     start.js
     test.js
+    testLoad.js
   src/
     _vars.sass
     index.js
