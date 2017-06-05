@@ -1,9 +1,20 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import App from './components/app/App'
-import './index.sass'
+import { Provider } from 'react-redux'
+import { normalize, setupPage } from 'csstips'
+
+import Router from './router'
+import registerServiceWorker from './registerServiceWorker'
+import configureStore from './configureStore'
+
+normalize()
+setupPage('#root')
 
 ReactDOM.render(
-  <App />,
+  <Provider store={configureStore()}>
+    <Router />
+  </Provider>,
   document.getElementById('root')
 )
+
+registerServiceWorker()
