@@ -27,9 +27,10 @@ export class Button extends Component {
   }
 
   render () {
-    let className = `btn ${style(this.styles.base, this.props.styles)}`
+    let { styles, type, ...props } = this.props
+    let className = `btn ${style(this.styles.base, styles)}`
     return (
-      <button type={this.props.type || 'button'} className={className}>
+      <button type={type || 'button'} className={className} {...props}>
         {this.props.children}
       </button>
     )

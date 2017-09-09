@@ -2,12 +2,17 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import { Provider } from 'react-redux'
 import { normalize, setupPage } from 'csstips'
-import { cssRule } from 'typestyle'
+import { cssRaw, cssRule } from 'typestyle'
 
 import { CSS } from './utils/constants'
 import Router from './router'
 import registerServiceWorker from './registerServiceWorker'
 import configureStore from './configureStore'
+
+cssRaw(`
+  @import url('https://fonts.googleapis.com/css?family=Arima+Madurai|Raleway:400,600');
+  @import url('https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css');
+`)
 
 normalize()
 setupPage('#root')

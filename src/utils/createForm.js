@@ -2,10 +2,29 @@ import React, { Component } from 'react'
 import { Field, reduxForm } from 'redux-form'
 import { style } from 'typestyle'
 import { flexRoot, vertical, startJustified } from 'csstips'
+
+import { CSS } from './constants'
 import Button from '../modules/misc/button/Button'
 import Label from '../modules/misc/label/Label'
 import Input from '../modules/misc/input/Input'
 import TextArea from '../modules/misc/textarea/TextArea'
+
+/**
+ * Create a form the following way: createForm(fields, options)
+ * Fields should have the following format:
+ * {
+ *   name: 'string',
+ *   label: 'string',
+ *   field: <field type from FIELD_TYPE enum>,
+ *   validate: <validation object list>
+ * }
+ * Options should have the followgin format:
+ * {
+ *   formName: 'string',
+ *   showPlaceholders: boolean,
+ *   showLabels: boolean
+ * }
+ */
 
 export const FIELD_TYPE = {
   TEXT: 'text',
@@ -14,9 +33,11 @@ export const FIELD_TYPE = {
 }
 
 const fieldComponents = {
-  [FIELD_TYPE.TEXT]: (...props) => <Input {...Object.assign(...props)} />,
-  [FIELD_TYPE.EMAIL]: (...props) => <Input {...Object.assign(...props)} />,
-  [FIELD_TYPE.TEXTAREA]: (...props) => <TextArea {...Object.assign(...props)} />
+  [FIELD_TYPE.TEXT]: (...props) => <Input {...Object.assign({}, ...props)} />,
+  [FIELD_TYPE.EMAIL]: (...props) => <Input {...Object.assign({}, ...props)} />,
+  [FIELD_TYPE.TEXTAREA]: (...props) => (
+    <TextArea {...Object.assign({}, ...props)} />
+  )
 }
 
 const createForm = (
@@ -35,7 +56,18 @@ const createForm = (
         field: Object.assign({}, flexRoot, vertical, startJustified, {
           width: '100%',
           padding: '5px 0'
-        })
+        }),
+        inputError: {
+          border: `1px solid ${CSS.ERROR_COLOR}`
+        },
+        error: {
+          fontSize: '0.7em',
+          color: CSS.ERROR_COLOR
+        },
+        warning: {
+          fontSize: '0.7em',
+          color: CSS.WARNING_COLOR
+        }
       }
     }
 
@@ -57,13 +89,20 @@ const createForm = (
       if (showPlaceholders) {
         otherProps.placeholder = label
       }
+      if (touched && error) {
+        otherProps.styles = this.styles.inputError
+      }
       return (
         <div className={style(this.styles.field, this.props.styles.field)}>
           {showLabels && <Label htmlFor={input.name}>{label}:</Label>}
           {fieldComponents[type](input, otherProps)}
           {touched &&
-            ((error && <span>{error}</span>) ||
-              (warning && <span>{warning}</span>))}
+            ((error && (
+              <span className={style(this.styles.error)}>{error}</span>
+            )) ||
+              (warning && (
+                <span className={style(this.styles.warning)}>{warning}</span>
+              )))}
         </div>
       )
     }

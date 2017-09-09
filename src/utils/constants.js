@@ -19,7 +19,9 @@ export const CSS = {
   BG_COLOR_MENU_HOVER: color('#222822')
     .lighten(0.2)
     .toHexString(),
-  BG_COLOR: '#cff09e'
+  BG_COLOR: '#cff09e',
+  ERROR_COLOR: color('#c00').toHexString(),
+  WARNING_COLOR: color('#c30').toHexString()
 }
 
 export default {

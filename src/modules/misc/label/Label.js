@@ -13,8 +13,9 @@ export class Label extends Component {
   }
 
   render () {
+    let { styles, ...props } = this.props
     return (
-      <div className={style(this.styles.base, this.props.styles)}>
+      <div className={style(this.styles.base, styles)} {...props}>
         {this.props.children}
       </div>
     )

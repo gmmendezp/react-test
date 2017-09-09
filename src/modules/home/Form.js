@@ -10,7 +10,8 @@ let ContactForm = createForm(
     },
     {
       name: 'last_name',
-      label: 'Last Name'
+      label: 'Last Name',
+      validate: [value => (value ? undefined : 'Required')]
     },
     {
       name: 'email',

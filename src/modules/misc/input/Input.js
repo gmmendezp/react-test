@@ -11,7 +11,7 @@ export class Input extends Component {
         width: '100%',
         height: '23px',
         padding: '12px 3px',
-        margin: '7px 0',
+        margin: '7px 0 2px',
         border: `1px solid ${CSS.TEXT_COLOR_SECONDARY}`,
         fontFamily: CSS.FONT_PRIMARY,
         fontSize: '.9em'
@@ -20,13 +20,9 @@ export class Input extends Component {
   }
 
   render () {
+    let { styles, ...props } = this.props
     return (
-      <input
-        className={style(this.styles.base, this.props.styles)}
-        type={this.props.type}
-        placeholder={this.props.placeholder}
-        name={this.props.name}
-      >
+      <input className={style(this.styles.base, styles)} {...props}>
         {this.props.children}
       </input>
     )

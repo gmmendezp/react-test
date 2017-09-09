@@ -10,7 +10,7 @@ export class TextArea extends Component {
         display: 'block',
         width: '100%',
         padding: '3px 3px',
-        margin: '7px 0',
+        margin: '7px 0 2px',
         border: `1px solid ${CSS.TEXT_COLOR_SECONDARY}`,
         fontFamily: CSS.FONT_PRIMARY,
         fontSize: '.9em'
@@ -19,13 +19,9 @@ export class TextArea extends Component {
   }
 
   render () {
+    let { styles, ...props } = this.props
     return (
-      <textarea
-        className={style(this.props.styles, this.styles.base)}
-        name={this.props.name}
-        placeholder={this.props.placeholder}
-        rows={this.props.rows}
-      >
+      <textarea className={style(this.styles.base, styles)} {...props}>
         {this.props.children}
       </textarea>
     )
