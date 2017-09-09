@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import logo from './../../assets/logo.svg'
 import { style, keyframes } from 'typestyle'
 import { gray, white } from 'csx'
+import ContactForm from './Form'
 
 class Home extends Component {
   classNames = {
@@ -29,6 +30,10 @@ class Home extends Component {
     })
   }
 
+  submit (values) {
+    console.log(values)
+  }
+
   render () {
     return (
       <div className={this.classNames.base}>
@@ -36,9 +41,8 @@ class Home extends Component {
           <img src={logo} className={this.classNames.logo} alt='logo' />
           <h2>Welcome to React</h2>
         </div>
-        <p className={this.classNames.intro}>
-          Just a home page
-        </p>
+        <p className={this.classNames.intro}>Just a home page</p>
+        <ContactForm onSubmit={this.submit} />
       </div>
     )
   }
