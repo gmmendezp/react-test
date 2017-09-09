@@ -4,7 +4,7 @@ import { Provider } from 'react-redux'
 import { normalize, setupPage } from 'csstips'
 import { cssRule } from 'typestyle'
 
-import { CSS } from './modules/utils/constants'
+import { CSS } from './utils/constants'
 import Router from './router'
 import registerServiceWorker from './registerServiceWorker'
 import configureStore from './configureStore'
