@@ -1,4 +1,4 @@
-import createForm, { FIELD_TYPE } from '../utils/createForm'
+import createForm, { FIELD_TYPE } from '../../utils/createForm'
 
 let ContactForm = createForm(
   [

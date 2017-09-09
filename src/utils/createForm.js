@@ -2,7 +2,10 @@ import React, { Component } from 'react'
 import { Field, reduxForm } from 'redux-form'
 import { style } from 'typestyle'
 import { flexRoot, vertical, startJustified } from 'csstips'
-import Button from '../misc/button/Button'
+import Button from '../modules/misc/button/Button'
+import Label from '../modules/misc/label/Label'
+import Input from '../modules/misc/input/Input'
+import TextArea from '../modules/misc/textarea/TextArea'
 
 export const FIELD_TYPE = {
   TEXT: 'text',
@@ -11,9 +14,9 @@ export const FIELD_TYPE = {
 }
 
 const fieldComponents = {
-  [FIELD_TYPE.TEXT]: (...props) => <input {...Object.assign(...props)} />,
-  [FIELD_TYPE.EMAIL]: (...props) => <input {...Object.assign(...props)} />,
-  [FIELD_TYPE.TEXTAREA]: (...props) => <textarea {...Object.assign(...props)} />
+  [FIELD_TYPE.TEXT]: (...props) => <Input {...Object.assign(...props)} />,
+  [FIELD_TYPE.EMAIL]: (...props) => <Input {...Object.assign(...props)} />,
+  [FIELD_TYPE.TEXTAREA]: (...props) => <TextArea {...Object.assign(...props)} />
 }
 
 const createForm = (
@@ -22,19 +25,18 @@ const createForm = (
   renderField
 ) => {
   class Form extends Component {
-    classNames = {
-      form: style(flexRoot, vertical, {
-        width: '30%',
-        textAlign: 'left'
-      }),
-      field: style(flexRoot, vertical, startJustified, {
-        width: '100%',
-        padding: '5px 0'
-      }),
-      label: style({
-        fontSize: '.8em',
-        fontWeight: 'bold'
-      })
+    constructor () {
+      super()
+      this.styles = {
+        form: Object.assign({}, flexRoot, vertical, {
+          width: '30%',
+          textAlign: 'left'
+        }),
+        field: Object.assign({}, flexRoot, vertical, startJustified, {
+          width: '100%',
+          padding: '5px 0'
+        })
+      }
     }
 
     renderInputField ({
@@ -56,12 +58,8 @@ const createForm = (
         otherProps.placeholder = label
       }
       return (
-        <div className={this.classNames.field}>
-          {showLabels && (
-            <label htmlFor={input.name} className={this.classNames.label}>
-              {label}:
-            </label>
-          )}
+        <div className={style(this.styles.field, this.props.styles.field)}>
+          {showLabels && <Label htmlFor={input.name}>{label}:</Label>}
           {fieldComponents[type](input, otherProps)}
           {touched &&
             ((error && <span>{error}</span>) ||
@@ -73,7 +71,10 @@ const createForm = (
     render () {
       const { handleSubmit } = this.props
       return (
-        <form onSubmit={handleSubmit} className={this.classNames.form}>
+        <form
+          onSubmit={handleSubmit}
+          className={style(this.styles.form, this.props.styles.form)}
+        >
           {fields.map(field => (
             <Field
               key={field.name}
@@ -84,10 +85,16 @@ const createForm = (
               validate={field.validate}
             />
           ))}
-          <Button type='submit'>Submit</Button>
+          <Button type='submit' styles={this.props.styles.submit}>
+            Submit
+          </Button>
         </form>
       )
     }
+  }
+
+  Form.defaultProps = {
+    styles: {}
   }
 
   return reduxForm({

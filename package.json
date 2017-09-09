@@ -8,12 +8,15 @@
     "clean": "rimraf build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
-    "lint": "standard --parser babel-eslint --verbose | snazzy",
+    "lint": "standard --verbose | snazzy",
     "format": "prettier --single-quote --no-semi --write \"**/*.js\" && standard --fix",
     "precommit": "lint-staged"
   },
   "standard": {
-    "parser": "babel-eslint"
+    "parser": "babel-eslint",
+    "plugins": [
+      "react"
+    ]
   },
   "lint-staged": {
     "*.js": [
