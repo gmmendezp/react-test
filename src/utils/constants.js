@@ -14,7 +14,7 @@ export const CSS = {
     .darken(0.8)
     .toHexString(),
   TEXT_COLOR_HEADER: '#333',
-  BG_COLOR_PRIMARY: '#ddd',
+  BG_COLOR_PRIMARY: '#fff',
   BG_COLOR_MENU: '#222822',
   BG_COLOR_MENU_HOVER: color('#222822')
     .lighten(0.2)

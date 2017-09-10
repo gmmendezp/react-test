@@ -10,8 +10,7 @@ import registerServiceWorker from './registerServiceWorker'
 import configureStore from './configureStore'
 
 cssRaw(`
-  @import url('https://fonts.googleapis.com/css?family=Arima+Madurai|Raleway:400,600');
-  @import url('https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css');
+  @import url('https://fonts.googleapis.com/css?family=Roboto:300,400,500');
 `)
 
 normalize()
