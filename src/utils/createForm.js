@@ -1,13 +1,9 @@
 import React, { Component } from 'react'
 import { Field, reduxForm } from 'redux-form'
 import { style } from 'typestyle'
-import { flexRoot, vertical, startJustified } from 'csstips'
-
 import { CSS } from './constants'
-import Button from '../modules/misc/button/Button'
-import Label from '../modules/misc/label/Label'
-import Input from '../modules/misc/input/Input'
-import TextArea from '../modules/misc/textarea/TextArea'
+import { FIELD_NAME, FIELD_TYPE, FIELD_COMPONENTS } from './form'
+import Button from 'material-ui/Button'
 
 /**
  * Create a form the following way: createForm(fields, options)
@@ -20,125 +16,82 @@ import TextArea from '../modules/misc/textarea/TextArea'
  * }
  * Options should have the followgin format:
  * {
- *   formName: 'string',
- *   showPlaceholders: boolean,
- *   showLabels: boolean
+ *   formName: 'string'
  * }
  */
 
-export const FIELD_TYPE = {
-  TEXT: 'text',
-  EMAIL: 'email',
-  TEXTAREA: 'textarea'
+const getRenderField = () => {
+  return function ({
+    input,
+    label,
+    fieldType,
+    type,
+    meta: { touched, error },
+    ...other
+  }) {
+    let otherProps = Object.assign(
+      {},
+      {
+        type: fieldType,
+        className: style(this.styles.input)
+      },
+      other
+    )
+    if (label) {
+      otherProps.label = label
+    }
+    if (touched && error) {
+      otherProps.helperText = error
+    }
+    return <div>{FIELD_COMPONENTS[fieldType](input, otherProps)}</div>
+  }
 }
 
-const fieldComponents = {
-  [FIELD_TYPE.TEXT]: (...props) => <Input {...Object.assign({}, ...props)} />,
-  [FIELD_TYPE.EMAIL]: (...props) => <Input {...Object.assign({}, ...props)} />,
-  [FIELD_TYPE.TEXTAREA]: (...props) => (
-    <TextArea {...Object.assign({}, ...props)} />
-  )
-}
-
-const createForm = (
-  fields,
-  { formName, showPlaceholders, showLabels },
-  renderField
-) => {
-  class Form extends Component {
+const createForm = (fields, { formName }, renderField) => {
+  class CustomForm extends Component {
     constructor () {
       super()
       this.styles = {
-        form: Object.assign({}, flexRoot, vertical, {
-          width: '30%',
-          textAlign: 'left'
-        }),
-        field: Object.assign({}, flexRoot, vertical, startJustified, {
-          width: '100%',
-          padding: '5px 0'
-        }),
-        inputError: {
-          border: `1px solid ${CSS.ERROR_COLOR}`
-        },
-        error: {
-          fontSize: '0.7em',
-          color: CSS.ERROR_COLOR
-        },
-        warning: {
-          fontSize: '0.7em',
-          color: CSS.WARNING_COLOR
-        }
+        field: { marginBottom: '10px' },
+        input: { marginBottom: '0 !important' },
+        error: { color: CSS.ERROR_COLOR, fontSize: '0.8em' }
       }
-    }
-
-    renderInputField ({
-      input,
-      label,
-      type,
-      meta: { touched, error, warning }
-    }) {
-      if (renderField) {
-        return renderField({
-          input,
-          label,
-          type,
-          meta: { touched, error, warning }
-        })
-      }
-      let otherProps = { type }
-      if (showPlaceholders) {
-        otherProps.placeholder = label
-      }
-      if (touched && error) {
-        otherProps.styles = this.styles.inputError
-      }
-      return (
-        <div className={style(this.styles.field, this.props.styles.field)}>
-          {showLabels && <Label htmlFor={input.name}>{label}:</Label>}
-          {fieldComponents[type](input, otherProps)}
-          {touched &&
-            ((error && (
-              <span className={style(this.styles.error)}>{error}</span>
-            )) ||
-              (warning && (
-                <span className={style(this.styles.warning)}>{warning}</span>
-              )))}
-        </div>
-      )
+      this.renderField = getRenderField().bind(this)
     }
 
     render () {
-      const { handleSubmit } = this.props
+      const { handleSubmit, styles } = this.props
       return (
-        <form
-          onSubmit={handleSubmit}
-          className={style(this.styles.form, this.props.styles.form)}
-        >
-          {fields.map(field => (
-            <Field
-              key={field.name}
-              name={field.name}
-              type={field.type || FIELD_TYPE.TEXT}
-              component={this.renderInputField.bind(this)}
-              label={field.label}
-              validate={field.validate}
-            />
-          ))}
-          <Button type='submit' styles={this.props.styles.submit}>
-            Submit
-          </Button>
+        <form onSubmit={handleSubmit} className={style(styles.form)}>
+          {fields.map(({ name, validate, ...others }) => {
+            const { fieldType = FIELD_NAME.TEXT } = others
+            others.fieldType = fieldType
+            return (
+              <div key={name} className={style(this.styles.field)}>
+                <Field
+                  name={name}
+                  type={FIELD_TYPE[fieldType]}
+                  component={this.renderField}
+                  validate={validate}
+                  {...others}
+                  props={others}
+                />
+              </div>
+            )
+          })}
+          <Button type='submit'>Submit</Button>
         </form>
       )
     }
   }
 
-  Form.defaultProps = {
+  CustomForm.defaultProps = {
     styles: {}
   }
 
   return reduxForm({
     form: formName
-  })(Form)
+  })(CustomForm)
 }
 
 export default createForm

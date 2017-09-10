@@ -1,28 +1,54 @@
-import createForm, { FIELD_TYPE } from '../../utils/createForm'
+import createForm from '../../utils/createForm'
+import { FIELD_NAME } from '../../utils/form'
 
 let ContactForm = createForm(
   [
     {
       name: 'first_name',
       label: 'First Name',
-      type: FIELD_TYPE.TEXTAREA,
-      validate: [value => (value ? undefined : 'Required')]
+      placeholder: 'First Name',
+      fieldType: FIELD_NAME.TEXTAREA,
+      validate: [value => (value ? undefined : 'Required')],
+      rows: 6
     },
     {
       name: 'last_name',
       label: 'Last Name',
+      placeholder: 'Last Name',
       validate: [value => (value ? undefined : 'Required')]
     },
     {
       name: 'email',
       label: 'Email',
-      type: FIELD_TYPE.EMAIL
+      placeholder: 'Email',
+      fieldType: FIELD_NAME.EMAIL
+    },
+    // {
+    //   name: 'single-selection',
+    //   label: 'YES/NO',
+    //   placeholder: 'YES/NO',
+    //   fieldType: FIELD_NAME.SINGLE,
+    //   options: [{ text: 'yes', value: 'YES' }, { text: 'no', value: 'NO' }]
+    // },
+    {
+      name: 'checkbox',
+      label: 'YES/NO',
+      placeholder: 'YES/NO',
+      fieldType: FIELD_NAME.CHECKBOX
+    },
+    {
+      name: 'radio-test',
+      fieldType: FIELD_NAME.RADIO,
+      label: 'radio test',
+      options: [
+        { text: 'yes', value: 'YES' },
+        { text: 'no', value: 'NO' },
+        { text: 'maybe', value: 'MAYBE' }
+      ]
     }
   ],
   {
-    formName: 'contact',
-    showPlaceholders: false,
-    showLabels: true
+    formName: 'contact'
   }
 )
 

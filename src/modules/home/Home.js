@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import logo from './../../assets/logo.svg'
+import { flexRoot, vertical, centerJustified, center } from 'csstips'
 import { style, keyframes } from 'typestyle'
 import { CSS } from '../../utils/constants'
 import ContactForm from './Form'
@@ -8,9 +9,7 @@ class Home extends Component {
   constructor () {
     super()
     this.styles = {
-      base: {
-        textAlign: 'center'
-      },
+      base: Object.assign({}, flexRoot, vertical, centerJustified, center),
       logo: {
         height: '80px',
         animationName: keyframes({
@@ -24,12 +23,16 @@ class Home extends Component {
       header: {
         backgroundColor: CSS.BG_COLOR_MENU,
         height: '190px',
+        width: '100%',
         padding: '20px',
-        color: CSS.TEXT_COLOR_SECONDARY
+        color: CSS.TEXT_COLOR_SECONDARY,
+        textAlign: 'center'
       },
       intro: {
-        fontSize: 'large'
-      }
+        fontSize: 'large',
+        textAlign: 'center'
+      },
+      form: { width: '70%' }
     }
   }
 
@@ -45,7 +48,10 @@ class Home extends Component {
           <h2>Welcome to React</h2>
         </div>
         <p className={style(this.styles.intro)}>Just a home page</p>
-        <ContactForm onSubmit={this.submit} />
+        <ContactForm
+          onSubmit={this.submit}
+          styles={{ form: this.styles.form }}
+        />
       </div>
     )
   }
