@@ -57,7 +57,7 @@ class Home extends Component {
         <ContactForm
           onSubmit={this.submit}
           styles={{ form: this.styles.form }}
-          initialValues={{ birthday: '2017-05-24T10:30' }}
+          initialValues={{ birthday: '5/24/2017' }}
         />
       </div>
     )

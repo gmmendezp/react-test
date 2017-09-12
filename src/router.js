@@ -2,11 +2,13 @@ import React from 'react'
 import { BrowserRouter as Router, Route, Link } from 'react-router-dom'
 import Home from './modules/home/Home'
 
-export default () =>
+export default () => (
   <Router>
     <div>
       <ul>
-        <li><Link to='/'>Home</Link></li>
+        <li>
+          <Link to='/'>Home</Link>
+        </li>
       </ul>
 
       <hr />
@@ -14,3 +16,4 @@ export default () =>
       <Route exact path='/' component={Home} />
     </div>
   </Router>
+)

@@ -28,9 +28,9 @@
   "dependencies": {
     "csstips": "^0.2.0",
     "csx": "^8.2.1",
-    "material-ui": "^1.0.0-beta.9",
-    "material-ui-icons": "^1.0.0-beta.5",
+    "intl": "^1.2.5",
     "react": "^15.5.4",
+    "react-md": "^1.1.1",
     "react-redux": "^5.0.5",
     "react-router-dom": "^4.1.1",
     "redux": "^3.6.0",

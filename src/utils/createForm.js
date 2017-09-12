@@ -1,9 +1,8 @@
 import React, { Component } from 'react'
 import { Field, reduxForm } from 'redux-form'
 import { style } from 'typestyle'
-import { CSS } from './constants'
 import { FIELD_NAME, FIELD_TYPE, FIELD_COMPONENTS } from './form'
-import Button from 'material-ui/Button'
+import Button from 'react-md/lib/Buttons/Button'
 
 /**
  * Create a form the following way: createForm(options)
@@ -34,14 +33,12 @@ const getRenderField = () => {
     type,
     meta: { touched, error },
     extra,
-    style: inputStyle,
     ...other
   }) {
     let otherProps = Object.assign(
       {},
       {
-        type: fieldType,
-        className: style(this.styles.input, inputStyle)
+        type: fieldType
       },
       other
     )
@@ -49,7 +46,7 @@ const getRenderField = () => {
       otherProps.label = label
     }
     if (touched && error) {
-      otherProps.helperText = error
+      otherProps.errorText = error
       otherProps.error = true
     }
     return (
@@ -72,11 +69,7 @@ const createForm = ({
   class CustomForm extends Component {
     constructor () {
       super()
-      this.styles = styles || {
-        field: { marginBottom: '10px' },
-        input: { marginBottom: '0 !important' },
-        error: { color: CSS.ERROR_COLOR, fontSize: '0.8em' }
-      }
+      this.styles = styles || {}
       this.renderField = getRenderField().bind(this)
       this.fields = fields
       this.beforeSubmit = beforeSubmit
@@ -96,6 +89,7 @@ const createForm = ({
           {this.fields.map(({ name, validate, ...others }) => {
             const { fieldType = FIELD_NAME.TEXT } = others
             others.fieldType = fieldType
+            others.id = name
             return (
               <div key={name} className={style(this.styles.field)}>
                 <Field
